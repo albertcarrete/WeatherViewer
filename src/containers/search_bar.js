@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { fetchWeather } from '../actions/index'
 
-export default class SearchBar extends Component{
+class SearchBar extends Component{
 
 	constructor(props){
 		super(props)
@@ -8,6 +11,7 @@ export default class SearchBar extends Component{
 		this.state = { term: ''}
 
 		this.onInputChange = this.onInputChange.bind(this);
+		this.onFormSubmit = this.onFormSubmit.bind(this);
 	}
 
 	onInputChange(event){
@@ -16,8 +20,12 @@ export default class SearchBar extends Component{
 
 	onFormSubmit(event){
 		event.preventDefault();
-		// TODO: go fetch weather data. 
+		// TODO: go fetch weather data.
 
+		this.props.fetchWeather(this.state.term); 
+
+		// Clears the field after the submit has ran
+		this.setState({term:''});
 	}
 	render(){
 		return(
@@ -35,3 +43,9 @@ export default class SearchBar extends Component{
 		)
 	}
 }
+
+function mapDispatchToProps(dispatch){
+	return bindActionCreators({ fetchWeather }, dispatch);
+}
+// The null means we don't need any state here hence the absence of mapStateToProps
+export default connect(null, mapDispatchToProps)(SearchBar);
