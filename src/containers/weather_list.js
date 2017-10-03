@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 
-export default class WeatherList extends Component {
+class WeatherList extends Component {
 	render(){
 		return(
 		<table className = "table table-hover">
@@ -19,3 +20,17 @@ export default class WeatherList extends Component {
 		)
 	}
 }
+
+// es6 syntax for grabbing weather from state
+// since weather is what is passed in.
+function mapStateToProps({ weather }){
+	// because we assigned our weather reducer to 'weather'
+	return{ weather };
+}
+
+export default connect(mapStateToProps)(WeatherList);
+
+// other way to do this without es6 syntax.
+// function mapStateToProps(state){
+// 	return {weather: state.weather}
+// }
